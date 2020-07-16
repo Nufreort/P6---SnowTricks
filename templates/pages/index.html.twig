@@ -14,7 +14,7 @@
     <h2 class="text-center">Découvrez nos {#{ pluralize(tricks|length, 'trick', 'tricks') }#} tricks !</h2>
     {% for trick in tricks %}
         <article>
-            <h2>{{trick.name}}</h2>
+            <h2><a href="{{path('app_trickView', {id: trick.id})}}">{{trick.name}}</a></h2>
             <p>
                 {{trick.description}}
             </p>

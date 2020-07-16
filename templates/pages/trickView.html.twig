@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block pageTitle %}<h1>{{tricks.name}}</h1>{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <article>
+            <p>
+                {{tricks.description}}
+            </p>
+        </article>
+
+        <p>
+            <a href="{{path('app_index')}}">Retourner à la page d'accueil</a>
+        </p>
+    </div>
+{% endblock %}
+{% block pageFooter %}{% endblock %}
