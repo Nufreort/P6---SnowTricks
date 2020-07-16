@@ -1,7 +1,8 @@
 {% extends 'layout.html.twig' %}
 
-{% block content %}
+{% block pageTitle %}<h1>Accueil ✅</h1>{% endblock %}
 
+{% block content %}
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -9,13 +10,17 @@
   </div>
 </div>
 
-<div class="example-wrapper">
-    <h1>Accueil {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/Symfony/P6-SnowTricks/src/Controller/PagesController.php'|file_link(0) }}">src/Controller/PagesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/Symfony/P6-SnowTricks/templates/pages/index.html.twig'|file_link(0) }}">templates/pages/index.html.twig</a></code></li>
-    </ul>
+<div class="container">
+    <h2 class="text-center">Découvrez nos {#{ pluralize(tricks|length, 'trick', 'tricks') }#} tricks !</h2>
+    {% for trick in tricks %}
+        <article>
+            <h2>{{trick.name}}</h2>
+            <p>
+                {{trick.description}}
+            </p>
+        </article>
+    {% endfor %}
 </div>
 {% endblock %}
+
+{% block pageFooter %}{% endblock %}
