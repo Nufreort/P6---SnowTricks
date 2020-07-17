@@ -1,15 +1,17 @@
-{% extends 'layout.html.twig' %}
+{% extends 'pages/indexLayout.html.twig' %}
 
 {% block pageTitle %}<h1>Accueil ✅</h1>{% endblock %}
 
-{% block content %}
+{% block hero %}
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
         <img src="../public/img/snowboard-header.jpg" class="d-block w-100" alt="...">
   </div>
 </div>
+{% endblock %}
 
+{% block content %}
 <div class="container">
     <h2 class="text-center">Découvrez nos {#{ pluralize(tricks|length, 'trick', 'tricks') }#} tricks !</h2>
     {% for trick in tricks %}
@@ -22,5 +24,3 @@
     {% endfor %}
 </div>
 {% endblock %}
-
-{% block pageFooter %}{% endblock %}

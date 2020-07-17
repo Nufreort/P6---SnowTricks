@@ -40,12 +40,17 @@
                 </div>
             </div>
 
-                <div id="content" class="">
-                    {% block content %}
-                    {% endblock %}
-                </div>
+            <div id="hero" class="">
+                {% block hero %}
+                {% endblock %}
+            </div>
 
-            <footer class="fixed-bottom">
+            <div id="content" class="container">
+                {% block content %}
+                {% endblock %}
+            </div>
+
+            <footer class="relative-bottom">
                 <div class="card text-center">
                     <div class="card-footer text-muted">
                         {% block pageFooter %}
