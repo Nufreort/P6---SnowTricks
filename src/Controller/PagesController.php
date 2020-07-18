@@ -75,4 +75,15 @@ class PagesController extends AbstractController
               'form' => $form->CreateView()
             ]);
     }
+
+    /**
+     * @Route("/trick/{id}/delete", name="app_trickDelete")
+     */
+    public function trickDelete(Tricks $tricks, EntityManagerInterface $em): Response
+    {
+            $em->remove($tricks);
+            $em->flush();
+
+            return $this->redirectToRoute('app_index');            
+    }
 }

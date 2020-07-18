@@ -14,8 +14,16 @@
             <a href="{{path('app_trickEdit',{id: tricks.id})}}">Modifier la figure</a>
         </p>
         <p>
+            <a href="#" onclick="event.preventDefault(); confirm('Etes-vous sûre de vouloir supprimer cette figure ?') &&
+            document.getElementById('js-trick-delete-form').submit();">Supprimer la figure</a>
+        </p>
+        <p>
             <a href="{{path('app_index')}}">Retourner à la page d'accueil</a>
         </p>
+
+        <form id="js-trick-delete-form" action="{{path('app_trickDelete',{id: tricks.id})}}" method="POST" style="display: none;">
+            <input type="hidden" name="method" value="DELETE" />
+        </form>
     </div>
 {% endblock %}
 {% block pageFooter %}{% endblock %}
