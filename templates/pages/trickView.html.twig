@@ -22,6 +22,7 @@
         </p>
 
         <form id="js-trick-delete-form" action="{{path('app_trickDelete',{id: tricks.id})}}" method="POST" style="display: none;">
+            <input type="hidden" name="csrf_token" value="{{csrf_token('trickDeleting_' ~ tricks.id)}}" />
             <input type="hidden" name="method" value="DELETE" />
         </form>
     </div>

@@ -79,11 +79,13 @@ class PagesController extends AbstractController
     /**
      * @Route("/trick/{id}/delete", name="app_trickDelete")
      */
-    public function trickDelete(Tricks $tricks, EntityManagerInterface $em): Response
+    public function trickDelete(Request $request, Tricks $tricks, EntityManagerInterface $em): Response
     {
-            $em->remove($tricks);
-            $em->flush();
+            if($this->isCsrfTokenValid('trickDeleting_' . $tricks->getId(), $request->request->get('csrf_token'))){
+              $em->remove($tricks);
+              $em->flush();
+            }
 
-            return $this->redirectToRoute('app_index');            
+            return $this->redirectToRoute('app_index');
     }
 }
