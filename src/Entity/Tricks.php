@@ -8,7 +8,7 @@ use App\Entity\Traits\Timestampable;
 
 /**
  * @ORM\Entity(repositoryClass=TricksRepository::class)
- * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  */
 class Tricks
 {

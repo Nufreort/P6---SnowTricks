@@ -4,9 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Tricks;
 use App\Repository\TricksRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class PagesController extends AbstractController
 {
@@ -21,10 +25,60 @@ class PagesController extends AbstractController
     }
 
     /**
+     * @Route("/trick/create", name="app_trickCreate")
+     */
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+      $trick = new Tricks;
+
+      $form = $this->createFormBuilder($trick)
+            ->add('name',TextType::class)
+            ->add('description', TextareaType::class)
+            ->getForm()
+      ;
+
+      $form->handleRequest($request);
+
+      if($form->isSubmitted() && $form->isValid()){
+          $em->persist($trick);
+          $em->flush();
+
+          return $this->redirectToRoute('app_index');
+      }
+
+      return $this->render('pages/trickCreate.html.twig', [
+        'form' => $form->CreateView()
+      ]);
+    }
+    /**
      * @Route("/trick/{id}", name="app_trickView")
      */
     public function trickView(Tricks $tricks): Response
     {
         return $this->render('pages/trickView.html.twig', compact('tricks'));
+    }
+
+    /**
+     * @Route("/trick/{id}/edit", name="app_trickEdit")
+     */
+    public function trickEdit(Request $request, Tricks $tricks, EntityManagerInterface $em): Response
+    {
+      $form = $this->createFormBuilder($tricks)
+            ->add('name',TextType::class)
+            ->add('description', TextareaType::class)
+            ->getForm();
+
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $em->flush();
+
+                return $this->redirectToRoute('app_index');
+            }
+
+            return $this->render('pages/trickEdit.html.twig', [
+              'tricks' => $tricks,
+              'form' => $form->CreateView()
+            ]);
     }
 }

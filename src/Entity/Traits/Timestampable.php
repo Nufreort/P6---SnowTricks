@@ -2,6 +2,8 @@
 
 namespace App\Entity\Traits;
 
+use Monolog\DateTimeImmutable;
+
 trait Timestampable
 {
   /**
@@ -16,7 +18,7 @@ trait Timestampable
 
   public function getCreatedAt(): ?\DateTimeInterface
   {
-      return $this->CreatedAt;
+      return $this->createdAt;
   }
 
   public function setCreatedAt(\DateTimeInterface $createdAt): self
@@ -44,10 +46,10 @@ trait Timestampable
    */
   public function updateTimestamps()
   {
-      if ($this->getCreatedAt() === null){
-        $this->setCreatedAt(new DateTimeImmutable);
+      if($this->getCreatedAt() === null){
+        $this->setCreatedAt(new \DateTimeImmutable);
       }
 
-      $this->setUpdatedAt(new DateTimeImmutable);
+      $this->setUpdatedAt(new \DateTimeImmutable);
   }
 }

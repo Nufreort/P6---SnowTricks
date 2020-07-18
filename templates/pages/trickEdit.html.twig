@@ -1,21 +1,23 @@
 {% extends 'layout.html.twig' %}
 
-{% block pageTitle %}<h1>{{tricks.name}}</h1>{% endblock %}
+{% block pageTitle %}<h1>Modifier la figure "{{tricks.name}}" !</h1>{% endblock %}
 
 {% block content %}
     <div class="container">
         <article>
             <p>
-                {{tricks.description}}
+                {{form_start(form)}}
+                    {{form_widget(form)}}
+
+                    <input type="submit" value="Modifier votre figure" />
+                {{form_end(form)}}
             </p>
         </article>
 
-        <p>
-            <a href="{{path('app_trickEdit',{id: tricks.id})}}">Modifier la figure</a>
-        </p>
         <p>
             <a href="{{path('app_index')}}">Retourner à la page d'accueil</a>
         </p>
     </div>
 {% endblock %}
+
 {% block pageFooter %}{% endblock %}
