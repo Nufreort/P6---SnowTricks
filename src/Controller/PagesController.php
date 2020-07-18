@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tricks;
+use App\Form\TrickType;
 use App\Repository\TricksRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,11 +32,7 @@ class PagesController extends AbstractController
     {
       $trick = new Tricks;
 
-      $form = $this->createFormBuilder($trick)
-            ->add('name',TextType::class)
-            ->add('description', TextareaType::class)
-            ->getForm()
-      ;
+      $form = $this->createForm(TrickType::class, $trick);
 
       $form->handleRequest($request);
 
@@ -63,10 +60,7 @@ class PagesController extends AbstractController
      */
     public function trickEdit(Request $request, Tricks $tricks, EntityManagerInterface $em): Response
     {
-      $form = $this->createFormBuilder($tricks)
-            ->add('name',TextType::class)
-            ->add('description', TextareaType::class)
-            ->getForm();
+            $form = $this->createForm(TrickType::class, $tricks);
 
             $form->handleRequest($request);
 
