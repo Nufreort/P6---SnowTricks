@@ -11,9 +11,7 @@
         </article>
 
         <p>
-            <a href="{{path('app_trickEdit',{id: tricks.id})}}">Modifier la figure</a>
-        </p>
-        <p>
+            <a href="{{path('app_trickEdit',{id: tricks.id})}}">Modifier la figure</a> | 
             <a href="#" onclick="event.preventDefault(); confirm('Etes-vous sûre de vouloir supprimer cette figure ?') &&
             document.getElementById('js-trick-delete-form').submit();">Supprimer la figure</a>
         </p>

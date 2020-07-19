@@ -40,6 +40,8 @@ class PagesController extends AbstractController
           $em->persist($trick);
           $em->flush();
 
+          $this->addFlash('infos','Votre figure a bien été ajoutée !');
+
           return $this->redirectToRoute('app_index');
       }
 
@@ -67,6 +69,8 @@ class PagesController extends AbstractController
             if($form->isSubmitted() && $form->isValid()){
                 $em->flush();
 
+                $this->addFlash('infos','Votre figure a bien été modifiée !');
+
                 return $this->redirectToRoute('app_index');
             }
 
@@ -84,6 +88,8 @@ class PagesController extends AbstractController
             if($this->isCsrfTokenValid('trickDeleting_' . $tricks->getId(), $request->request->get('csrf_token'))){
               $em->remove($tricks);
               $em->flush();
+
+              $this->addFlash('infos','Votre figure a bien été supprimée !');
             }
 
             return $this->redirectToRoute('app_index');
