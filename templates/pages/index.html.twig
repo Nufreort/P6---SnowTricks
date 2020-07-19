@@ -1,21 +1,26 @@
-{% extends 'layout.html.twig' %}
+{% extends 'pages/indexLayout.html.twig' %}
 
-{% block content %}
+{% block pageTitle %}<h1>Accueil ✅</h1>{% endblock %}
 
+{% block hero %}
 <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
         <img src="../public/img/snowboard-header.jpg" class="d-block w-100" alt="...">
   </div>
 </div>
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Accueil {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/Symfony/P6-SnowTricks/src/Controller/PagesController.php'|file_link(0) }}">src/Controller/PagesController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/Symfony/P6-SnowTricks/templates/pages/index.html.twig'|file_link(0) }}">templates/pages/index.html.twig</a></code></li>
-    </ul>
+{% block content %}
+<div class="container">
+    <h2 class="text-center">Découvrez nos {#{ pluralize(tricks|length, 'trick', 'tricks') }#} tricks !</h2>
+    {% for trick in tricks %}
+        <article>
+            <h2><a href="{{path('app_trickView', {id: trick.id})}}">{{trick.name}}</a></h2>
+            <p>
+                {{trick.description}}
+            </p>
+        </article>
+    {% endfor %}
 </div>
 {% endblock %}
