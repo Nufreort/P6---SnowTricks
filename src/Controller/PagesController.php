@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Tricks;
 use App\Form\TrickType;
 use App\Repository\TricksRepository;
+use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,11 +20,12 @@ class PagesController extends AbstractController
     /**
      * @Route("/", name="app_index")
      */
-    public function index(TricksRepository $tricksRepository): Response
+    public function index(TricksRepository $tricksRepository, UserRepository $userRepository): Response
     {
       $tricks = $tricksRepository->findBy([], ['createdAt' => 'DESC']);
+      $users = $userRepository->findAll();
 
-        return $this->render('pages/index.html.twig', compact('tricks'));
+      return $this->render('pages/index.html.twig', compact('tricks','users'));
     }
 
     /**

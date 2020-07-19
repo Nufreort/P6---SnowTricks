@@ -1,0 +1,11 @@
+<div>
+  {% if users %}
+      <div class="bg-light">
+          {% for user in users %}
+            <p>
+              Bonjour ! Vous êtes connecté en tant que : {{user.firstName}}.
+            </p>
+           {% endfor %}
+      </div>
+  {% endif %}
+</div>
