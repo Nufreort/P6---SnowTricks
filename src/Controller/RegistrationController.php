@@ -48,10 +48,25 @@ class RegistrationController extends AbstractController
     /**
      * @Route("/profil", name="app_userProfil")
      */
-    public function profilUpdate()
+    public function profilUpdate(): Response
     {
-        return $this->render('registration/userProfil.html.twig');
+            return $this->render('registration/userProfil.html.twig');
+        /*    $form = $this->createForm(RegistrationFormType::class, $user);
 
+            $form->handleRequest($request);
+
+            if($form->isSubmitted() && $form->isValid()){
+                $em->flush();
+
+                $this->addFlash('infos','Votre profil a bien été modifiée !');
+
+                return $this->redirectToRoute('app_index');
+              }
+
+            return $this->render('registration/userProfil.html.twig', [
+              'user' => $user,
+              'form' => $form->CreateView()
+              ]);*/
     }
 
     /**
