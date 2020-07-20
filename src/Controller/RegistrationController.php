@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -41,5 +42,29 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/profil", name="app_userProfil")
+     */
+    public function profilUpdate()
+    {
+        return $this->render('registration/userProfil.html.twig');
+
+    }
+
+    /**
+     * @Route("/user/{id}/delete", name="app_userProfilDelete")
+     */
+    public function userProfilDelete(Request $request, User $users, EntityManagerInterface $em): Response
+    {
+            if($this->isCsrfTokenValid('userProfilDeleting_' . $users->getId(), $request->request->get('csrf_token'))){
+              $em->remove($users);
+              $em->flush();
+
+              $this->addFlash('infos','Votre profil a bien été supprimée !');
+            }
+
+            return $this->redirectToRoute('app_index');
     }
 }

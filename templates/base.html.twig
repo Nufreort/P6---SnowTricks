@@ -24,7 +24,14 @@
                       <a class="nav-link" href="{{path('app_index')}}">Accueil<span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="{{path('app_trickCreate')}}">Ajouter une figure</a>
+                      {% if app.user %}
+                          <a class="nav-link" href="{{path('app_trickCreate')}}">Ajouter une figure</a>
+                      {% endif %}
+                    </li>
+                    <li class="nav-item">
+                      {% if app.user %}
+                          <a class="nav-link" href="{{path('app_userProfil')}}">Mon profil</a>
+                      {% endif %}
                     </li>
                     <a href="{{path('app_register')}}"><button type="button" class="btn btn-success">S'inscrire</button></a>
                     <a href="{{path('app_login')}}"><button type="button" class="btn btn-warning">Se connecter</button></a>
@@ -33,6 +40,17 @@
                 </div>
                 </nav>
             </header>
+
+{% if app.user %}
+{% endif %}
+
+            <div class="bg-success">
+                {% if app.user %}
+                    <div class="mb-3 text-center">
+                        Bienvenue {{ app.user.firstName }} ! Vous êtes connecté.
+                    </div>
+                {% endif %}
+            </div>
 
             <div class="card text-center">
                 <div class="card-header">
@@ -50,8 +68,6 @@
                     {% endfor %}
                 </div>
             </div>
-
-
 
             <div id="hero" class="">
                 {% block hero %}
