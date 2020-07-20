@@ -2,17 +2,22 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Traits\Timestampable;
+
 
 /**
- * @ORM\Entity(repositoryClass=UsersRepository::class)
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ORM\HasLifecycleCallbacks()
  */
-class Users implements UserInterface
+class User implements UserInterface
 {
+    use Timestampable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -39,22 +44,12 @@ class Users implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $photo;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $registration_date;
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $first_name;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isVerified = false;
+    private $firstName;
 
     public function getId(): ?int
     {
@@ -134,50 +129,26 @@ class Users implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getPhoto(): ?string
+    public function getLastName(): ?string
     {
-        return $this->photo;
+        return $this->lastName;
     }
 
-    public function setPhoto(string $photo): self
+    public function setLastName(string $lastName): self
     {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
-    public function getRegistrationDate(): ?\DateTimeInterface
-    {
-        return $this->registration_date;
-    }
-
-    public function setRegistrationDate(\DateTimeInterface $registration_date): self
-    {
-        $this->registration_date = $registration_date;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
     public function getFirstName(): ?string
     {
-        return $this->first_name;
+        return $this->firstName;
     }
 
-    public function setFirstName(string $first_name): self
+    public function setFirstName(string $firstName): self
     {
-        $this->first_name = $first_name;
-
-        return $this;
-    }
-
-    public function isVerified(): bool
-    {
-        return $this->isVerified;
-    }
-
-    public function setIsVerified(bool $isVerified): self
-    {
-        $this->isVerified = $isVerified;
+        $this->firstName = $firstName;
 
         return $this;
     }

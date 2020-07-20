@@ -2,35 +2,24 @@
 
 namespace App\Controller;
 
-use App\Entity\Users;
+use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Security\EmailVerifier;
-use App\Security\UsersAuthenticator;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 class RegistrationController extends AbstractController
 {
-    private $emailVerifier;
-
-    public function __construct(EmailVerifier $emailVerifier)
-    {
-        $this->emailVerifier = $emailVerifier;
-    }
-
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UsersAuthenticator $authenticator): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        $user = new Users();
+        $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -46,23 +35,9 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('ryryry203@gmail.com', 'SnowTricks'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
             // do anything else you need here, like send an email
 
-            return $guardHandler->authenticateUserAndHandleSuccess(
-                $user,
-                $request,
-                $authenticator,
-                'main' // firewall name in security.yaml
-            );
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
@@ -71,24 +46,46 @@ class RegistrationController extends AbstractController
     }
 
     /**
-     * @Route("/verify/email", name="app_verify_email")
+     * @Route("/profil", name="app_userProfil")
      */
-    public function verifyUserEmail(Request $request): Response
+    public function profilUpdate(): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+            return $this->render('registration/userProfil.html.twig');
+        /*    $form = $this->createForm(RegistrationFormType::class, $user);
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $exception->getReason());
+            $form->handleRequest($request);
 
-            return $this->redirectToRoute('app_register');
-        }
+            if($form->isSubmitted() && $form->isValid()){
+                $em->flush();
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+                $this->addFlash('infos','Votre profil a bien été modifiée !');
 
-        return $this->redirectToRoute('app_register');
+                return $this->redirectToRoute('app_index');
+              }
+
+            return $this->render('registration/userProfil.html.twig', [
+              'user' => $user,
+              'form' => $form->CreateView()
+              ]);*/
+    }
+
+    /**
+     * @Route("/user/{id}/delete", name="app_userProfilDelete")
+     */
+    public function userProfilDelete(Request $request, User $users, EntityManagerInterface $em): Response
+    {
+            if($this->isCsrfTokenValid('userProfilDeleting_' . $users->getId(), $request->request->get('csrf_token'))){
+              $em->remove($users);
+              $em->flush();
+
+              $session = new Session();
+              $session->invalidate();
+
+              //$this->addFlash('infos','Votre profil a bien été supprimée !');
+
+              return $this->redirectToRoute('app_logout');
+            }
+
+            return $this->redirectToRoute('app_index');
     }
 }
