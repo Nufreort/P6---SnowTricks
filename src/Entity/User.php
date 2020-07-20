@@ -6,13 +6,18 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Traits\Timestampable;
+
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
 {
+    use Timestampable;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -45,11 +50,6 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $firstName;
-
-    /**
-     * @ORM\Column(type="datetime",options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $registrationDate;
 
     public function getId(): ?int
     {
@@ -151,26 +151,5 @@ class User implements UserInterface
         $this->firstName = $firstName;
 
         return $this;
-    }
-
-    public function getRegistrationDate(): ?\DateTimeInterface
-    {
-        return $this->registrationDate;
-    }
-
-    public function setRegistrationDate(\DateTimeInterface $registrationDate): self
-    {
-        $this->registrationDate = $registrationDate;
-
-        return $this;
-    }
-
-    /**
-     * @ORM\PrePersist
-     * @ORM\PreUpdate
-     */
-    public function updateTimestamps()
-    {
-          $this->setRegistrationDate(new \DateTimeImmutable);
     }
 }

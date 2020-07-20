@@ -17,7 +17,7 @@
           Mot de passe :{{ app.user.password }}
         </p>
         <p>
-          Date d'inscription : {{ app.user.registrationDate|date('d/m/Y') }}
+          Date d'inscription : {{ app.user.createdAt|date('d/m/Y') }}
         </p>
         <p>
           <a href="#" onclick="event.preventDefault(); confirm('Etes-vous sûre de vouloir supprimer votre profil ?') &&

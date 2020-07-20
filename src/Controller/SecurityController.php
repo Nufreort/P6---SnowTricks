@@ -15,7 +15,9 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        return $this->redirectToRoute('homepage');
+        $this->addFlash('infos','Votre profil a bien été supprimée !');
+        
+        return $this->redirectToRoute('app_index');
     }
     /**
      * @Route("/login", name="app_login")
