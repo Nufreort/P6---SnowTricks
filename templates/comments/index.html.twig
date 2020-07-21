@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+
+{% block pageTitle %}<h1>Discussion</h1>{% endblock %}
+
+{% block content %}
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Contenu</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td>{{ comment.id }}</td>
+                <td>{{ comment.content }}</td>
+                <td>
+                    <a href="{{ path('comments_show', {'id': comment.id}) }}">Plus</a>
+                    <a href="{{ path('comments_edit', {'id': comment.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Pas encore de message. Soyez le premier à en mettre un ! :)</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('comments_new') }}">Ajouter un message</a>
+{% endblock %}
