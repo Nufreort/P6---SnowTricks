@@ -3,15 +3,17 @@
 {% block pageTitle %}<h1>{{tricks.name}}</h1>{% endblock %}
 
 {% block content %}
-    <div class="container">
+      <div class="container">
         <article>
             <p>
                 {{tricks.description}}
             </p>
         </article>
+      </div>
 
+      <div>
         <p>
-            <a href="{{path('app_trickEdit',{id: tricks.id})}}">Modifier la figure</a> | 
+            <a href="{{path('app_trickEdit',{id: tricks.id})}}">Modifier la figure</a> |
             <a href="#" onclick="event.preventDefault(); confirm('Etes-vous sûre de vouloir supprimer cette figure ?') &&
             document.getElementById('js-trick-delete-form').submit();">Supprimer la figure</a>
         </p>

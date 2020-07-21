@@ -1,0 +1,10 @@
+{% extends 'layout.html.twig' %}
+
+{% block pageTitle %}<h1>Ajouter un message</h1>{% endblock %}
+
+{% block content %}
+
+    {{ include('comments/_form.html.twig') }}
+
+    <a href="{{ path('comments_index') }}">Retourner à la discussion</a>
+{% endblock %}
